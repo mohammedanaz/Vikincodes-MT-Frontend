@@ -94,7 +94,6 @@ export default function AddNewProductPage() {
         }
         else{
             console.log("File image Issue in forn Data");
-            return;
         }
 
         try {
@@ -140,7 +139,7 @@ export default function AddNewProductPage() {
     };
 
     return (
-        <div className="w-[90%] md:w-[80%] mx-auto mt-8 p-6 bg-white rounded-md shadow">
+        <div className="w-[90%] md:w-[80%] mx-auto mt-8 my-10 p-6 bg-white rounded-md shadow">
             <h1 className="text-2xl font-semibold mb-4">Add New Product</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
@@ -224,7 +223,7 @@ export default function AddNewProductPage() {
                         </Button>
                     </div>
                     {variants.map((variant, index) => (
-                        <div key={index} className="border-2 rounded-md p-3 mb-3">
+                        <div key={index} className="border-2 rounded-md p-3 mb-3 bg-slate-50">
                             <h2 className="text-lg font-semibold mb-2">{`Variant-${index + 1}`}</h2>
                             <div className="mb-2">
                                 <Input

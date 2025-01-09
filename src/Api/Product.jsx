@@ -13,6 +13,10 @@ const ProductApi = {
         });
         return response.data; 
     },
+    editStock: async (newStock, id) => {
+        const response = await instance.patch(`products/edit-stock/${id}`, { TotalStock: newStock });
+        return response.data; 
+    },
   };
   
   export default ProductApi;

@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Link, useNavigate } from "react-router-dom";
+import EditStockModal from "../Modals/EditStockModal";
 
 export default function ProductListTable() {
   const [sorting, setSorting] = useState([])
@@ -123,15 +124,16 @@ export default function ProductListTable() {
     {
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => handleEditStock(row.original.id)}
-        >
-          Edit Stock
-        </Button>
-      ),
+      cell: ({ row }) => {
+        const { id } = row.original;
+        return (
+          <EditStockModal
+            stockValue={row.getValue("TotalStock")}
+            rowId={id}
+            onStockUpdate={(newStock) => handleStockUpdate(id, newStock)}
+          />
+        );
+      },
       enableSorting: false,
       enableHiding: false,
     },
@@ -173,8 +175,14 @@ export default function ProductListTable() {
     fetchProductData();
   }, []);
 
-  function handleEditStock(rowId) {
-    console.log("Edit stock for row ID:", rowId);
+  const handleStockUpdate = (id, newStock) => {
+    setProductData((prevData) =>
+      prevData.map((product) =>
+        product.id === id
+          ? { ...product, TotalStock: newStock }
+          : product
+      )
+    );
   };
 
   function handleAddProduct() {
@@ -188,10 +196,10 @@ export default function ProductListTable() {
   };
 
   function handleImageClick(imageUrl) {
-    if(imageUrl){
+    if (imageUrl) {
       window.open(imageUrl, "_blank");
     }
-    else{
+    else {
       return;
     }
   }
