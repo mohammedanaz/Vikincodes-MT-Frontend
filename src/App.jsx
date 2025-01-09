@@ -6,6 +6,7 @@ import SignUpPage from './Pages/SignUpPage';
 import AdminHomePage from './Pages/AdminHomePage';
 import SignUpLoginProtectRoutes from './Routes/protectedRoutes/SignUpLoginProtectRoutes'
 import AuthProtectionRoutes from './Routes/protectedRoutes/AuthProtectionRoutes';
+import AddNewProductPage from './Pages/AddNewProductPage';
 
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
           />
           <Route path="/adminHome"
             element={<AuthProtectionRoutes element={AdminHomePage} />}
+          />
+          <Route path="/addNewProduct"
+            element={<AuthProtectionRoutes element={AddNewProductPage} />}
           />
         </Routes>
       </Router>

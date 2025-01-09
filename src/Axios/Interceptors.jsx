@@ -9,7 +9,7 @@ instance.interceptors.request.use(
         console.log('inside req interceptor');
         const state = store.getState();
         const token = state.userAuth.accessToken;
-        console.log("Access Token:", token);
+        //console.log("Access Token:", token);
 
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
