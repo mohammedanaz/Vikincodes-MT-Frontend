@@ -85,6 +85,25 @@ export default function ProductListTable() {
       ),
     },
     {
+      id: "productImage",
+      header: "Product Image",
+      cell: ({ row }) => {
+        const { ProductImage } = row.original;
+        return (
+          <div>
+            <img
+              src={ProductImage?.thumbnail}
+              alt="Product Thumbnail"
+              className="w-16 h-16 object-cover cursor-pointer"
+              onClick={() => handleImageClick(ProductImage?.medium)}
+            />
+          </div>
+        );
+      },
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
       accessorKey: "TotalStock",
       header: "Total Stock",
       cell: ({ row }) => {
@@ -167,6 +186,15 @@ export default function ProductListTable() {
     });
     navigate("/addNewProduct", { state: { productCodes } });
   };
+
+  function handleImageClick(imageUrl) {
+    if(imageUrl){
+      window.open(imageUrl, "_blank");
+    }
+    else{
+      return;
+    }
+  }
 
   //Loader Component
   if (isLoading) {
