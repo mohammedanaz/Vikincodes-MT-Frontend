@@ -70,7 +70,10 @@ export default function AddNewProductPage() {
 
         if (!validateVariants()) return;
 
-        if (productCodes[0].includes(data.ProductID)) {
+        console.log("productCodes, ProductID, ProductCode - ",productCodes[0], productCodes[1], data.ProductID, data.ProductCode);
+        console.log(typeof productCodes[0][0], typeof data.ProductID);
+        
+        if (productCodes[0].includes(Number(data.ProductID))) {
             showToast(`Product ID ${data.ProductID} already exists.`, "error");
             return;
         }
