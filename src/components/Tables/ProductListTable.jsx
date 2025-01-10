@@ -128,7 +128,6 @@ export default function ProductListTable() {
         const { id } = row.original;
         return (
           <EditStockModal
-            stockValue={row.getValue("TotalStock")}
             rowId={id}
             onStockUpdate={(newStock) => handleStockUpdate(id, newStock)}
           />

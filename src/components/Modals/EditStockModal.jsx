@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button";
 import ProductApi from "../../Api/Product";
+import useToast from "../../Hooks/UseToast";
 import {
     Dialog,
     DialogContent,
@@ -14,18 +15,23 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 export default function EditStockModal({ stockValue = 0, rowId, onStockUpdate  }) {
-    const [inputValue, setInputValue] = useState(stockValue)
+    const [inputValue, setInputValue] = useState(0)
     const [open, setOpen] = useState(false);
+    const showToast = useToast();
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (action) => {
         try {
-            console.log(inputValue, rowId);
-            const response = await ProductApi.editStock(inputValue, rowId);
+            const response = await ProductApi.editStock(inputValue, rowId, action);
             console.log('edit product stock data success- ', response);
-            onStockUpdate(inputValue);
+            const newStock = response.TotalStock
+            onStockUpdate(newStock);
             setOpen(false);
+            showToast(`Stock edited successfully.`, "success");
         } catch (error) {
-            console.error("Error editing product stock data:", error);
+            const {response} = error
+            console.error("Error editing product stock data:", response);
+            const errMsg = response.data?.newStock ? response.data?.newStock[0] :  response.data[0] || "Some error from server"
+            showToast(errMsg, "error");    
         }
     };
     return (
@@ -42,13 +48,13 @@ export default function EditStockModal({ stockValue = 0, rowId, onStockUpdate  }
                 <DialogHeader>
                     <DialogTitle>Edit Stock</DialogTitle>
                     <DialogDescription>
-                        Make changes to your product stock here. Click save when you're done.
+                        Sell or buy product stock here.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="stock" className="text-right">
-                            New Stock
+                            Quantity
                         </Label>
                         <Input
                             id="stock"
@@ -61,9 +67,14 @@ export default function EditStockModal({ stockValue = 0, rowId, onStockUpdate  }
                 </div>
                 <DialogFooter>
                     <Button
-                        onClick={() => handleSubmit()}
+                        onClick={() => handleSubmit("deduct")}
                     >
-                        Save changes
+                        Sell Stock
+                    </Button>
+                    <Button
+                        onClick={() => handleSubmit("add")}
+                    >
+                        Buy Stock
                     </Button>
                 </DialogFooter>
             </DialogContent>
